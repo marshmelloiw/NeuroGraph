@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:record/record.dart'; // Bu, ses kaydı paketi Record'udur.
-import 'package:path_provider/path_provider.dart'; // Dosya yolu için
+import 'dart:io';
 import 'package:permission_handler/permission_handler.dart'; // İzinler için
 
 class ReadingTestScreen extends StatefulWidget {
@@ -61,7 +61,7 @@ class _ReadingTestScreenState extends State<ReadingTestScreen> {
       // AudioRecorder sınıfı üzerinden izin kontrolü
       // hasPermission metodu AudioRecorder sınıfında mevcut.
       if (await _audioRecorder.hasPermission()) {
-        final directory = await getApplicationDocumentsDirectory();
+        final directory = Directory.systemTemp;
         final filePath = '${directory.path}/recorded_audio_${DateTime.now().millisecondsSinceEpoch}.m4a';
 
         await _audioRecorder.start(
