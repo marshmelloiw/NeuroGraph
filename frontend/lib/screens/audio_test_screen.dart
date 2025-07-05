@@ -13,8 +13,8 @@ class ReadingTestScreen extends StatefulWidget {
 
 class _ReadingTestScreenState extends State<ReadingTestScreen> {
   final AudioPlayer _audioPlayer = AudioPlayer();
-  // Record sınıfının doğrudan kullanımı, bu şekilde yeni versiyonlarda instance alınır.
-  final Record _audioRecorder = Record();
+  // Record sınıfı abstract, bu yüzden AudioRecorder() kullanılır.
+  final AudioRecorder _audioRecorder = AudioRecorder();
   String? _recordedFilePath; // Kaydedilen ses dosyasının yolu
 
   int _currentReadingIndex = 0;
@@ -58,8 +58,8 @@ class _ReadingTestScreenState extends State<ReadingTestScreen> {
 
   Future<void> _startRecording() async {
     try {
-      // Record sınıfı üzerinden izin kontrolü
-      // hasPermission metodu hala Record sınıfında mevcut.
+      // AudioRecorder sınıfı üzerinden izin kontrolü
+      // hasPermission metodu AudioRecorder sınıfında mevcut.
       if (await _audioRecorder.hasPermission()) {
         final directory = await getApplicationDocumentsDirectory();
         final filePath = '${directory.path}/recorded_audio_${DateTime.now().millisecondsSinceEpoch}.m4a';
@@ -160,7 +160,7 @@ class _ReadingTestScreenState extends State<ReadingTestScreen> {
   @override
   void dispose() {
     _audioPlayer.dispose();
-    _audioRecorder.dispose(); // Record objesini dispose etmeyi unutmayın
+    _audioRecorder.dispose(); // AudioRecorder objesini dispose etmeyi unutmayın
     super.dispose();
   }
 
